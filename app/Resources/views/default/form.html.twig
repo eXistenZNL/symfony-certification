@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <h1><span>New Task form</span></h1>
+            </div>
+
+            <div class="panel panel-default">
+                {{ form_start(form) }}
+                	<legend>New Task</legend>
+                    {{ form_errors(form) }}
+                	<div class="form-group">
+                        {{ form_row(form.task) }}
+                        {{ form_row(form.dueDate) }}
+                	</div>
+                	<div>
+                        {{ form_widget(form.save) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
