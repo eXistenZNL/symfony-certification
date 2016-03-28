@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="d6dice_service" class="AppBundle\Service\D6Dice" />
+        <service id="app.dice_controller" class="AppBundle\Controller\DiceController">
+            <argument type="service" id="d6dice_service"/>
+        </service>
+    </services>
+</container>

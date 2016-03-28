@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Contract\Dice;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,9 +20,9 @@ class DiceController extends Controller
     }
 
     /**
-     * @Route("/oddOrEven", name="homepage")
+     * @Route("/oddOrEven", name="oddOrEven")
      */
-    public function indexAction(Request $request)
+    public function oddOrEvenAction(Request $request)
     {
         $number = $this->dice->roll();
         if(!is_int($number)){
