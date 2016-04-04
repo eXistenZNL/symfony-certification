@@ -4,14 +4,14 @@ namespace AppBundle\Service;
 
 use AppBundle\Exception\IllegalArgumentException;
 
-class D6DiceInterface implements DiceInterface {
+class SixEyedDice implements DiceInterface {
 
     /**
      * D6Dice constructor. Fills the dice with the 6 values
      * @param array $values
      * @throws IllegalArgumentException
      */
-    public function __construct(array $values)
+    public function __construct(array $values = array(1,2,3,4,5,6))
     {
         if(count($values) != 6) {
             throw new IllegalArgumentException('A 6 sided dice must contain all 6 values');
@@ -27,5 +27,4 @@ class D6DiceInterface implements DiceInterface {
     {
         // TODO: Implement roll() method.
     }
-
 }

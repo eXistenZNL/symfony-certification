@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\D6Dice;
 use AppBundle\Service\DiceInterface;
+use AppBundle\Service\SixEyedDice;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DiceController extends Controller
 {
@@ -14,25 +17,31 @@ class DiceController extends Controller
      */
     protected $dice;
 
-    public function __construct(DiceInterface $dice)
+    public function __construct(SixEyedDice $dice)
     {
         $this->dice = $dice;
     }
 
     /**
-     * @Route("/oddOrEven", name="oddOrEven")
+     * Shows "odd" or "even" to the user based on the injected dice service
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     public function oddOrEvenAction(Request $request)
     {
+        $template = 'default/oneLine.html.twig';
         $number = $this->dice->roll();
-        if(!is_int($number)){
-            return 'Dice has no numbers';
+
+        if (!is_int($number)) {
+            return $this->render($template, array('message' => 'Dice has no numbers'));
         }
 
-        if($number % 2 === 0) {
-            return 'even';
+        if ($number % 2 === 0) {
+            return $this->render($template, array('message' => 'even'));
         }
 
-        return 'odd';
+        return $this->render($template, array('message' => 'odd'));
     }
 }
