@@ -14,7 +14,7 @@ class D6Dice implements Dice {
      */
     public function __construct(array $values)
     {
-        if(count($values) != 61) {
+        if(count($values) != 6) {
             throw new IllegalArgumentException('A 6 sided dice must contain all 6 values');
         }
     }
