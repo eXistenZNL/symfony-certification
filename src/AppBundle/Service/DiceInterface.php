@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Contract;
+namespace AppBundle\Service;
 
-interface Dice {
+interface DiceInterface {
 
     /**
      * Dice constructor which sets all the values of the sides in the dice

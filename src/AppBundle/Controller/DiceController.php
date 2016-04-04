@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Contract\Dice;
+use AppBundle\Service\DiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 class DiceController extends Controller
 {
     /**
-     * @var Dice
+     * @var DiceInterface
      */
     protected $dice;
 
-    public function __construct(Dice $dice)
+    public function __construct(DiceInterface $dice)
     {
         $this->dice = $dice;
     }

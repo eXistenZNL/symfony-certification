@@ -2,10 +2,9 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Contract\Dice;
 use AppBundle\Exception\IllegalArgumentException;
 
-class D6Dice implements Dice {
+class D6DiceInterface implements DiceInterface {
 
     /**
      * D6Dice constructor. Fills the dice with the 6 values
