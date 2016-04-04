@@ -3,7 +3,8 @@
 namespace AppBundle\DependencyInjection;
 
 use AppBundle\Controller\DiceController;
-use AppBundle\Service\SixEyedDice;
+use AppBundle\Service\SixSidedDice;
+use AppBundle\Service\TwelveSidedDice;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -25,8 +26,13 @@ class AppExtension extends Extension
 //        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 //        $loader->load('services.xml');
 
-        $sixDiceDefinition = new Definition(SixEyedDice::class);
+        $sixDiceDefinition = new Definition(SixSidedDice::class);
+        $sixDiceDefinition->addTag('app.rollable');
         $container->setDefinition('app.dice.six', $sixDiceDefinition);
+
+        $twelveDiceDefinition = new Definition(TwelveSidedDice::class);
+        $twelveDiceDefinition->addTag('app.rollable');
+        $container->setDefinition('app.dice.twelve', $sixDiceDefinition);
 
         $diceControllerDefinition = new Definition(DiceController::class);
         $diceControllerDefinition->setArguments(array(new Reference('app.dice.six')));
