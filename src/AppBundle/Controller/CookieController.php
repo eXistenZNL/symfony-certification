@@ -12,7 +12,7 @@ class CookieController extends Controller
     /**
      * @Route("/cookie", name="cookie")
      */
-    public function cookie()
+    public function cookieAction()
     {
         $response = new Response('ok');
         $response->headers->setCookie(

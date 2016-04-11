@@ -27,7 +27,7 @@ class DefaultController extends Controller
      *
      * @Route("/file/content", name="file")
      */
-    public function file()
+    public function fileAction()
     {
        return new BinaryFileResponse($this->getParameter('kernel.root_dir') . '/../composer.json');
     }
@@ -37,7 +37,7 @@ class DefaultController extends Controller
      *
      * @Route("/file/download", name="download")
      */
-    public function download()
+    public function downloadAction()
     {
         $response = new BinaryFileResponse($this->getParameter('kernel.root_dir') . '/../composer.json');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'composer.json');
@@ -50,7 +50,7 @@ class DefaultController extends Controller
      *
      * @Route("/file/json", name="json")
      */
-    public function json()
+    public function jsonAction()
     {
         return new JsonResponse([ 'test' => 123 ]);
     }
@@ -60,7 +60,7 @@ class DefaultController extends Controller
      *
      * @Route("/file/jsonp", name="json")
      */
-    public function jsonp()
+    public function jsonpAction()
     {
         $response = new JsonResponse([ 'test' => 123 ]);
         $response->setCallback('handleResponse');
