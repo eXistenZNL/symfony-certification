@@ -3,6 +3,7 @@
 namespace AppBundle\DependencyInjection;
 
 use AppBundle\Controller\DiceController;
+use AppBundle\Service\NumericValueProvider;
 use AppBundle\Service\SixSidedDice;
 use AppBundle\Service\TwelveSidedDice;
 use Symfony\Component\Config\FileLocator;
@@ -23,17 +24,20 @@ class AppExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        // Load the configuration using a random syntax
         $strategies = array('xml', 'php', 'yml');
         $strategyKey = rand(0, count($strategies));
-
         switch ($strategies[$strategyKey]) {
             case "xml":
                 $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
                 $loader->load('services.xml');
                 break;
             case "php":
+                $numericValueProvider = new Definition(NumericValueProvider::class);
+                $container->setDefinition('app.dice.provider.numeric', $numericValueProvider);
+
                 $sixDiceDefinition = new Definition(SixSidedDice::class);
-                $sixDiceDefinition->addTag('app.rollable');
+                $sixDiceDefinition->addTag('app.dice.provider.aware');
                 $container->setDefinition('app.dice.six', $sixDiceDefinition);
 
                 $twelveDiceDefinition = new Definition(TwelveSidedDice::class);
@@ -49,6 +53,21 @@ class AppExtension extends Extension
                 $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
                 $loader->load('services.yml');
                 break;
+        }
+
+        // Insert our NumericValueProvider to the services that are ValueProviderAware
+        $this->insertNumericValueProvider($container);
+    }
+
+    protected function insertNumericValueProvider(ContainerBuilder $container)
+    {
+        $taggedServices = $container->findTaggedServiceIds(
+            'app.dice.provider.aware'
+        );
+
+        foreach ($taggedServices as $id => $tags) {
+            $service = $container->getDefinition($id);
+            $service->addMethodCall('calculateValues', array(new Reference('app.dice.provider.numeric')));
         }
     }
 }

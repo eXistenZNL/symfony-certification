@@ -1,8 +1,11 @@
 services:
+  app.dice.provider.numeric:
+    class: AppBundle\Service\NumericValueProvider
+
   app.dice.six:
     class:  AppBundle\Service\SixSidedDice
     tags:
-      -  { name: app.rollable }
+      -  { name: app.dice.provider.aware }
 
   app.dice.twelve:
     class: AppBundle\Service\SixSidedDice

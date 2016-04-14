@@ -2,30 +2,19 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Exception\IllegalArgumentException;
-
-class SixSidedDice implements DiceInterface
+class SixSidedDice implements DiceInterface, ValueProviderAwareInterface
 {
-
     /**
      * @var array
      */
     protected $values;
 
     /**
-     * D6Dice constructor, fills the dice with the 6 values
-     *
-     * @param array $values
-     *
-     * @throws IllegalArgumentException
+     * SixSidedDice constructor.
      */
-    public function __construct(array $values = array(1, 2, 3, 4, 5, 6))
+    public function __construct()
     {
-        if (count($values) != 6) {
-            throw new IllegalArgumentException('A 6 sided dice must contain all 6 values');
-        }
-
-        $this->values = $values;
+        $this->values = array();
     }
 
     /**
@@ -36,5 +25,15 @@ class SixSidedDice implements DiceInterface
     public function roll()
     {
         return array_rand($this->values);
+    }
+
+    /**
+     * @param ValueProviderInterface $valueProvider
+     */
+    public function calculateValues(ValueProviderInterface $valueProvider)
+    {
+        for ($i = 0; $i <= 6; $i++) {
+            $this->values[] = $valueProvider->getValue();
+        }
     }
 }

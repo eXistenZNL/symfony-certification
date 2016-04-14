@@ -44,32 +44,4 @@ class DiceController extends Controller
 
         return $this->render($template, array('message' => 'odd'));
     }
-
-    /**
-     * Roll all Dice services in the container and count the output
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function rollAllAction(Request $request)
-    {
-        $rollableServices = $this->findTaggedServiceIds('app.rollable');
-        $rollCount = 0;
-        $total = 0;
-        foreach ($rollableServices as $rollableService) {
-            $outcome = $rollableService->roll();
-            if (!is_int($outcome)) {
-                continue;
-            }
-
-            $rollCount++;
-            $total = $total + $outcome;
-        }
-
-        return $this->render(
-            'default/oneLine.html.twig',
-            array('message' => sprintf('rolled %d times with a total of %s', $rollCount, $total))
-        );
-    }
 }
