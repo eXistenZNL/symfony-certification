@@ -1,24 +1,21 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
-    <parameters>
-        <parameter key="app.dice.values.6.numbers" type="collection">
-            <parameter>1</parameter>
-            <parameter>2</parameter>
-            <parameter>3</parameter>
-            <parameter>4</parameter>
-            <parameter>5</parameter>
-            <parameter>6</parameter>
-        </parameter>
-    </parameters>
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="app.dice.six" class="AppBundle\Service\SixEyedDice" />
+        <service id="app.dice.six" class="AppBundle\Service\SixSidedDice">
+            <tag name="app.rollable"/>
+        </service>
+        <service id="app.dice.twelve" class="AppBundle\Service\SixSidedDice">
+            <tag name="app.rollable"/>
+        </service>
         <service id="app.dice_controller" class="AppBundle\Controller\DiceController">
             <argument type="service" id="app.dice.six"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
     </services>
-
 </container>

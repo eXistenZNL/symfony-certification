@@ -1,0 +1,17 @@
+services:
+  app.dice.six:
+    class:  AppBundle\Service\SixSidedDice
+    tags:
+      -  { name: app.rollable }
+
+  app.dice.twelve:
+    class: AppBundle\Service\SixSidedDice
+    tags:
+      -  { name: app.rollable }
+
+  app.dice_controller:
+    class: AppBundle\Controller\DiceController
+    arguments:
+      - "@app.dice.six"
+    calls:
+      - [setContainer, ['@service_container']]
