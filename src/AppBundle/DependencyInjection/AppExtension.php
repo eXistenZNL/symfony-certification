@@ -61,8 +61,5 @@ class AppExtension extends Extension
                 $loader->load('services.yml');
                 break;
         }
-
-        // Insert our NumericValueProvider to the services that are ValueProviderAware
-        $container->addCompilerPass(new InsertValueProviderPass());
     }
 }
