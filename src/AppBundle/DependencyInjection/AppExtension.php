@@ -5,6 +5,7 @@ namespace AppBundle\DependencyInjection;
 use AppBundle\Controller\DiceController;
 use AppBundle\DependencyInjection\Compiler\InsertValueProviderPass;
 use AppBundle\Factory\TwelveSidedDiceFactory;
+use AppBundle\Service\DiceInterface;
 use AppBundle\Service\NumericValueProvider;
 use AppBundle\Service\SixSidedDice;
 use AppBundle\Service\TwelveSidedDice;
@@ -44,6 +45,7 @@ class AppExtension extends Extension
 
                 $sixDiceDefinition = new Definition(SixSidedDice::class);
                 $sixDiceDefinition->addTag('app.dice.provider.aware');
+                $sixDiceDefinition->setAutowiringTypes(array(DiceInterface::class));
                 $container->setDefinition('app.dice.six', $sixDiceDefinition);
 
                 $twelveDiceDefinition = new Definition(TwelveSidedDice::class);
@@ -52,7 +54,7 @@ class AppExtension extends Extension
                 $container->setDefinition('app.dice.twelve', $sixDiceDefinition);
 
                 $diceControllerDefinition = new Definition(DiceController::class);
-                $diceControllerDefinition->setArguments(array(new Reference('app.dice.six')));
+                $diceControllerDefinition->setAutowired(true);
                 $diceControllerDefinition->addMethodCall('setContainer', array(new Reference('service_container')));
                 $container->setDefinition('app.dice_controller', $diceControllerDefinition);
                 break;
