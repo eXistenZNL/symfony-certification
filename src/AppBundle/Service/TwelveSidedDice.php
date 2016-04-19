@@ -19,7 +19,7 @@ class TwelveSidedDice implements DiceInterface
      *
      * @throws IllegalArgumentException
      */
-    public function __construct(array $values = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
+    public function __construct(array $values)
     {
         if (count($values) != 12) {
             throw new IllegalArgumentException('A Regular dodecahedron dice must contain 12 values');

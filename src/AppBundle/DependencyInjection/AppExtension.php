@@ -3,6 +3,7 @@
 namespace AppBundle\DependencyInjection;
 
 use AppBundle\Controller\DiceController;
+use AppBundle\Factory\TwelveSidedDiceFactory;
 use AppBundle\Service\NumericValueProvider;
 use AppBundle\Service\SixSidedDice;
 use AppBundle\Service\TwelveSidedDice;
@@ -33,6 +34,10 @@ class AppExtension extends Extension
                 $loader->load('services.xml');
                 break;
             case "php":
+                $twelveDiceFactoryDefinition = new Definition(TwelveSidedDiceFactory::class);
+                $twelveDiceFactoryDefinition->addArgument(array(new Reference('app.dice.provider.numeric')));
+                $container->setDefinition('app.dice.twelve.factory', $twelveDiceFactoryDefinition);
+
                 $numericValueProvider = new Definition(NumericValueProvider::class);
                 $container->setDefinition('app.dice.provider.numeric', $numericValueProvider);
 
@@ -41,6 +46,7 @@ class AppExtension extends Extension
                 $container->setDefinition('app.dice.six', $sixDiceDefinition);
 
                 $twelveDiceDefinition = new Definition(TwelveSidedDice::class);
+                $twelveDiceDefinition->setFactory(array('app.dice.twelve.factory', 'createTwelveSidedDice'));
                 $twelveDiceDefinition->addTag('app.rollable');
                 $container->setDefinition('app.dice.twelve', $sixDiceDefinition);
 

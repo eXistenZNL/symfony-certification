@@ -1,4 +1,9 @@
 services:
+  app.dice.twelve.factory:
+      class: AppBundle\Factory\TwelveSidedDiceFactory
+      arguments:
+        - "@app.dice.provider.numeric"
+
   app.dice.provider.numeric:
     class: AppBundle\Service\NumericValueProvider
 
@@ -8,13 +13,14 @@ services:
       -  { name: app.dice.provider.aware }
 
   app.dice.twelve:
-    class: AppBundle\Service\SixSidedDice
+    class: AppBundle\Service\TwelveSidedDice
+    factory: ["@app.dice.twelve.factory", createTwelveSidedDice]
     tags:
       -  { name: app.rollable }
 
   app.dice_controller:
     class: AppBundle\Controller\DiceController
     arguments:
-      - "@app.dice.six"
+      - "@app.dice.twelve"
     calls:
       - [setContainer, ['@service_container']]
