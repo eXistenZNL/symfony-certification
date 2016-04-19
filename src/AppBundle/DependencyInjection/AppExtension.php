@@ -3,6 +3,7 @@
 namespace AppBundle\DependencyInjection;
 
 use AppBundle\Controller\DiceController;
+use AppBundle\DependencyInjection\Compiler\InsertValueProviderPass;
 use AppBundle\Factory\TwelveSidedDiceFactory;
 use AppBundle\Service\NumericValueProvider;
 use AppBundle\Service\SixSidedDice;
@@ -62,18 +63,6 @@ class AppExtension extends Extension
         }
 
         // Insert our NumericValueProvider to the services that are ValueProviderAware
-        $this->insertNumericValueProvider($container);
-    }
-
-    protected function insertNumericValueProvider(ContainerBuilder $container)
-    {
-        $taggedServices = $container->findTaggedServiceIds(
-            'app.dice.provider.aware'
-        );
-
-        foreach ($taggedServices as $id => $tags) {
-            $service = $container->getDefinition($id);
-            $service->addMethodCall('calculateValues', array(new Reference('app.dice.provider.numeric')));
-        }
+        $container->addCompilerPass(new InsertValueProviderPass());
     }
 }
