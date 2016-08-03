@@ -1,3 +1,10 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+home:
+    path: /
+    defaults: {_controller: AppBundle:Default:index}
+oddOrEven:
+    path:     /oddOrEven
+    defaults: { _controller: app.dice_controller:oddOrEvenAction }
+
+rollAll:
+    path:     /rollAll
+    defaults: { _controller: app.dice_controller:rollAllAction }
